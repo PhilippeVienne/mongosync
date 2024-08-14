@@ -48,9 +48,9 @@ start_migration() {
 
     success=$(echo $start | jq -r '.success')
     if [ "$success" != "true" ]; then
-    echo "Failed to start migration"
-    echo $start
-    exit 1
+        echo "Failed to start migration"
+        echo $start
+        exit 1
     fi
 }
 
@@ -64,6 +64,7 @@ while true; do
         start_migration
     fi
   fi
+  echo "Waiting for mongosync to start"
   sleep 1
 done
 
