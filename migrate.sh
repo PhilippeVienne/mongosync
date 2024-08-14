@@ -38,6 +38,10 @@ EOF
 
 mongosync --config /tmp/migrate.yaml &
 
+MONGOSYNC_PID=$!
+
+trap "kill $MONGOSYNC_PID" EXIT
+
 start_migration() {
     echo "Starting migration"
     start=$(curl -X POST http://localhost:${MIGRATE_PORT:-"27182"}/api/v1/start -H "Content-Type: application/json" -d '{"source": "cluster0","destination": "cluster1"}')
