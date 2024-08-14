@@ -57,11 +57,10 @@ while true; do
     progress=$(curl -s http://localhost:${MIGRATE_PORT:-"27182"}/api/v1/progress | jq -r '.progress')
     state=$(echo $progress | jq -r '.state')
     if [ "$state" == "IDLE" ]; then
-        echo "Waiting for migration to start, you can run ' curl -X POST http://localhost:${MIGRATE_PORT:-"27182"}/api/v1/start -H \"Content-Type: application/json\" -d '{\"source\": \"cluster0\",\"destination\": \"cluster1\"}' ' to start the migration"
+        echo "Waiting for migration to start, you can run ' curl -X POST http://localhost:${MIGRATE_PORT:-"27182"}/api/v1/start -H \"Content-Type: application/json\" -d '{\"source\": \"cluster0\",\"destination\": \"cluster1\", \"enableUserWriteBlocking\": true}' ' to start the migration"
     fi
     if [ "$state" == "COMMITTED" ]; then
         echo "Migration has already been completed"
-        exit 0
     fi
     if [ "$state" == "RUNNING" ]; then
         echo "Migration is progressing"
