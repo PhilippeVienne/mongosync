@@ -63,6 +63,10 @@ while true; do
         echo "First time starting migration"
         start_migration
     fi
+    if [ "$state" == "COMMITED" ]; then
+        echo "Migration has already been completed"
+        exit 0
+    fi
   fi
   echo "Waiting for mongosync to start"
   sleep 1
